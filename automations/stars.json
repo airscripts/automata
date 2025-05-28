@@ -1,0 +1,240 @@
+{
+  "name": "stars",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "https://api.github.com/repos/airscripts/awesome-steam-deck",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Accept",
+              "value": "application/vnd.github+json"
+            },
+            {
+              "name": "X-GitHub-Api-Version",
+              "value": "2022-11-28"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "a6b0af0d-3c45-4aa8-bd30-f848679ebd2c",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT * FROM automata.repositories WHERE stars < {{ $json.stargazers_count }};",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        660,
+        0
+      ],
+      "id": "1e4f78de-0f2f-4b47-a746-7abfadfc5e6b",
+      "name": "Postgres",
+      "alwaysOutputData": true,
+      "credentials": {
+        "postgres": {
+          "id": "QmGICv4JYrcz7EHt",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "6e4abb60-45a4-4b2e-9ba4-0ac618fa415c",
+              "leftValue": "={{ $json.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        880,
+        0
+      ],
+      "id": "981615f0-ad52-475d-9527-42e3ac8295a6",
+      "name": "If"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        -100
+      ],
+      "id": "7deb3986-65e1-4703-ab08-273929f3a9e0",
+      "name": "Noop"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE automata.repositories\nSET stars = {{ $('HTTP Request').item.json.stargazers_count }}\nWHERE repository = 'awesome-steam-deck';\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1100,
+        100
+      ],
+      "id": "ca87abee-1924-4bf4-8ccd-5d00544fae66",
+      "name": "Update Stars",
+      "credentials": {
+        "postgres": {
+          "id": "QmGICv4JYrcz7EHt",
+          "name": "Supabase"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fromEmail": "stars@airscript.it",
+        "toEmail": "francesco@airscript.it",
+        "subject": "A star is born!",
+        "html": "=You've got a new star and reached {{ $('HTTP Request').item.json.stargazers_count }} in total.\nPreviously there were {{ $('Postgres').item.json.stars }} stars.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [
+        1320,
+        100
+      ],
+      "id": "2fd78934-a927-47e0-922c-b3dcdb6aa33e",
+      "name": "Send Email",
+      "webhookId": "2408d846-d2dc-4afe-af3f-475ffd2275c3",
+      "credentials": {
+        "smtp": {
+          "id": "H6n3acHf2Fo1G6OO",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        220,
+        0
+      ],
+      "id": "e1fe6bbe-ce97-4e46-a380-f3843a85a1d4",
+      "name": "Schedule Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Noop",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Stars",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Stars": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "10d370ac-dbfc-4dae-954c-b3555a0e4011",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "b40f16c220ede9fe499e33124a89f30a53fc84a9ea130f3b0ab10a2020a06b6c"
+  },
+  "id": "cRbom3ajALNBRWoI",
+  "tags": []
+}
