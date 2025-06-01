@@ -1,0 +1,14 @@
+services:
+  n8n:
+    build: .
+    container_name: automata
+
+    ports:
+      - "5678:5678"
+
+    volumes:
+      - n8n:/home/node/.n8n
+
+volumes:
+  n8n:
+    external: true
