@@ -145,8 +145,7 @@
         "rule": {
           "interval": [
             {
-              "field": "hours",
-              "hoursInterval": 6
+              "field": "hours"
             }
           ]
         }
@@ -226,11 +225,11 @@
       ]
     }
   },
-  "active": true,
+  "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "10d370ac-dbfc-4dae-954c-b3555a0e4011",
+  "versionId": "0ea65d5c-82e7-4dcf-8224-e676058ae022",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "b40f16c220ede9fe499e33124a89f30a53fc84a9ea130f3b0ab10a2020a06b6c"
