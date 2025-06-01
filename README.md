@@ -34,6 +34,8 @@ docker compose up
 And everything will be available at port 5678 of your localhost.  
 From now on, just import the automations in `automations` folder and have fun.
 
+> Remember that you have to setup your own connections to databases, smtp servers and so on.
+
 ## Resources
 - n8n: https://n8n.io/
 - Docker: https://www.docker.com/
