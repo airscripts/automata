@@ -1,9 +1,9 @@
 {
-  "name": "stars",
+  "name": "followers",
   "nodes": [
     {
       "parameters": {
-        "url": "https://api.github.com/repos/airscripts/awesome-steam-deck",
+        "url": "https://api.github.com/users/airscripts",
         "sendHeaders": true,
         "headerParameters": {
           "parameters": [
@@ -17,7 +17,11 @@
             }
           ]
         },
-        "options": {}
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
@@ -25,13 +29,13 @@
         440,
         0
       ],
-      "id": "a6b0af0d-3c45-4aa8-bd30-f848679ebd2c",
+      "id": "9c4f283e-6b96-4f13-bc4c-8dccb1d6334b",
       "name": "HTTP Request"
     },
     {
       "parameters": {
         "operation": "executeQuery",
-        "query": "SELECT * FROM github.repositories WHERE stars < {{ $json.stargazers_count }};",
+        "query": "SELECT * FROM github.profiles WHERE followers < {{ $json.followers }};",
         "options": {}
       },
       "type": "n8n-nodes-base.postgres",
@@ -40,7 +44,7 @@
         660,
         0
       ],
-      "id": "1e4f78de-0f2f-4b47-a746-7abfadfc5e6b",
+      "id": "b61e4005-1a15-482c-8f65-91d2230d17ee",
       "name": "Postgres",
       "alwaysOutputData": true,
       "credentials": {
@@ -81,7 +85,7 @@
         880,
         0
       ],
-      "id": "981615f0-ad52-475d-9527-42e3ac8295a6",
+      "id": "727b77c4-8339-4234-a1f7-7858e530778d",
       "name": "If"
     },
     {
@@ -92,36 +96,15 @@
         1100,
         -100
       ],
-      "id": "7deb3986-65e1-4703-ab08-273929f3a9e0",
+      "id": "29d2c224-4f70-4663-9c2d-5dabb9ac175a",
       "name": "Noop"
     },
     {
       "parameters": {
-        "operation": "executeQuery",
-        "query": "UPDATE github.repositories\nSET stars = {{ $('HTTP Request').item.json.stargazers_count }}\nWHERE repository = 'awesome-steam-deck';\n",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.postgres",
-      "typeVersion": 2.6,
-      "position": [
-        1100,
-        100
-      ],
-      "id": "ca87abee-1924-4bf4-8ccd-5d00544fae66",
-      "name": "Update Stars",
-      "credentials": {
-        "postgres": {
-          "id": "QmGICv4JYrcz7EHt",
-          "name": "Supabase"
-        }
-      }
-    },
-    {
-      "parameters": {
-        "fromEmail": "stars@airscript.it",
+        "fromEmail": "followers@airscript.it",
         "toEmail": "francesco@airscript.it",
-        "subject": "A star is born!",
-        "html": "=You've got a new star and reached {{ $('HTTP Request').item.json.stargazers_count }} in total.\nPreviously there were {{ $('Postgres').item.json.stars }} stars.",
+        "subject": "Watchout! They're following you!",
+        "html": "=You've got a new follower and reached {{ $('HTTP Request').item.json.followers }} in total.\nPreviously there were {{ $('Postgres').item.json.followers }} followers.",
         "options": {}
       },
       "type": "n8n-nodes-base.emailSend",
@@ -130,9 +113,9 @@
         1320,
         100
       ],
-      "id": "2fd78934-a927-47e0-922c-b3dcdb6aa33e",
+      "id": "adbb8b89-0601-4f6b-bf5c-596022578fd9",
       "name": "Send Email",
-      "webhookId": "2408d846-d2dc-4afe-af3f-475ffd2275c3",
+      "webhookId": "ade490a5-b7a3-4031-a8a4-0d1aa1b6ce9f",
       "credentials": {
         "smtp": {
           "id": "H6n3acHf2Fo1G6OO",
@@ -156,8 +139,29 @@
         220,
         0
       ],
-      "id": "e1fe6bbe-ce97-4e46-a380-f3843a85a1d4",
+      "id": "2832b3ff-1daa-451a-9a1a-2ff7aaec731e",
       "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE github.profiles\nSET followers = {{ $('HTTP Request').item.json.followers }}\nWHERE username = 'airscripts';\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1100,
+        100
+      ],
+      "id": "8d01b764-de22-4ce8-bb3c-8933ff5edfc9",
+      "name": "Update Followers",
+      "credentials": {
+        "postgres": {
+          "id": "QmGICv4JYrcz7EHt",
+          "name": "Supabase"
+        }
+      }
     }
   ],
   "pinData": {},
@@ -195,18 +199,7 @@
         ],
         [
           {
-            "node": "Update Stars",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Update Stars": {
-      "main": [
-        [
-          {
-            "node": "Send Email",
+            "node": "Update Followers",
             "type": "main",
             "index": 0
           }
@@ -223,18 +216,29 @@
           }
         ]
       ]
+    },
+    "Update Followers": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "938cf053-d9a0-468c-890b-337961f5a08f",
+  "versionId": "38150428-5eca-474f-8514-a0c6c12f23a2",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "b40f16c220ede9fe499e33124a89f30a53fc84a9ea130f3b0ab10a2020a06b6c"
   },
-  "id": "cRbom3ajALNBRWoI",
+  "id": "AVVkoUpQzrJMnI4i",
   "tags": [
     {
       "name": "github",
