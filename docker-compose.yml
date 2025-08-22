@@ -13,6 +13,12 @@ services:
           cpus: '0.1'
           memory: 256M
 
+    healthcheck:
+      retries: 10
+      timeout: 10s
+      interval: 30s
+      test: ["CMD", "wget", "--spider", "--quiet", "http://localhost:5678/healthz"]
+
     ports:
       - "5678:5678"
 
