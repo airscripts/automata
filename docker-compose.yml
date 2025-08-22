@@ -3,6 +3,16 @@ services:
     build: .
     container_name: automata
 
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 512M
+
+        reservations:
+          cpus: '0.1'
+          memory: 256M
+
     ports:
       - "5678:5678"
 
