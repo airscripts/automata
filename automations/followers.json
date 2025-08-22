@@ -26,10 +26,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        440,
-        0
+        -656,
+        112
       ],
-      "id": "9c4f283e-6b96-4f13-bc4c-8dccb1d6334b",
+      "id": "b2eab409-c909-4d85-8baa-874dbe921752",
       "name": "HTTP Request"
     },
     {
@@ -41,15 +41,15 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        660,
-        0
+        -448,
+        112
       ],
-      "id": "b61e4005-1a15-482c-8f65-91d2230d17ee",
+      "id": "949beae0-c396-42e8-a7bd-35fce125e4f5",
       "name": "Postgres",
       "alwaysOutputData": true,
       "credentials": {
         "postgres": {
-          "id": "QmGICv4JYrcz7EHt",
+          "id": "RHD1CNyuzveJ7tKD",
           "name": "Supabase"
         }
       }
@@ -82,10 +82,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        880,
-        0
+        -224,
+        112
       ],
-      "id": "727b77c4-8339-4234-a1f7-7858e530778d",
+      "id": "43964c16-ef9d-4a23-aee6-96913d4c526d",
       "name": "If"
     },
     {
@@ -93,10 +93,10 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1100,
-        -100
+        0,
+        0
       ],
-      "id": "29d2c224-4f70-4663-9c2d-5dabb9ac175a",
+      "id": "c7136eae-6e48-45da-aaf1-baf786931fe3",
       "name": "Noop"
     },
     {
@@ -110,16 +110,16 @@
       "type": "n8n-nodes-base.emailSend",
       "typeVersion": 2.1,
       "position": [
-        1320,
-        100
+        224,
+        208
       ],
-      "id": "adbb8b89-0601-4f6b-bf5c-596022578fd9",
+      "id": "48d3ad51-1add-467a-9489-d7cc1085addd",
       "name": "Send Email",
       "webhookId": "ade490a5-b7a3-4031-a8a4-0d1aa1b6ce9f",
       "credentials": {
         "smtp": {
-          "id": "H6n3acHf2Fo1G6OO",
-          "name": "SMTP account"
+          "id": "5irRVqrWZZXwC4QK",
+          "name": "Mailgun"
         }
       }
     },
@@ -128,7 +128,7 @@
         "rule": {
           "interval": [
             {
-              "field": "hours"
+              "triggerAtHour": 10
             }
           ]
         }
@@ -136,10 +136,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        220,
-        0
+        -880,
+        112
       ],
-      "id": "2832b3ff-1daa-451a-9a1a-2ff7aaec731e",
+      "id": "3baf5d8a-6bb2-4247-b24f-a9bf68e00770",
       "name": "Schedule Trigger"
     },
     {
@@ -151,14 +151,14 @@
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
       "position": [
-        1100,
-        100
+        0,
+        208
       ],
-      "id": "8d01b764-de22-4ce8-bb3c-8933ff5edfc9",
+      "id": "e66b5fed-b31b-443a-a2e4-d0b4a6ba0003",
       "name": "Update Followers",
       "credentials": {
         "postgres": {
-          "id": "QmGICv4JYrcz7EHt",
+          "id": "RHD1CNyuzveJ7tKD",
           "name": "Supabase"
         }
       }
@@ -229,22 +229,22 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "38150428-5eca-474f-8514-a0c6c12f23a2",
+  "versionId": "e84b901b-59ff-4437-8d98-a42e19465b1e",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "b40f16c220ede9fe499e33124a89f30a53fc84a9ea130f3b0ab10a2020a06b6c"
+    "instanceId": "d09016cf748ffbf0a91b795646f54664a6fecb34bdc5336e069742b788e39f30"
   },
-  "id": "AVVkoUpQzrJMnI4i",
+  "id": "Z2ZjyeENeJKMuFjl",
   "tags": [
     {
-      "name": "github",
-      "id": "KeA96rO2MLItSgUW",
-      "createdAt": "2025-06-06T23:24:10.086Z",
-      "updatedAt": "2025-06-06T23:24:10.086Z"
+      "createdAt": "2025-08-22T14:41:22.613Z",
+      "updatedAt": "2025-08-22T14:41:22.613Z",
+      "id": "V8yT7OMGaBYz6Ccb",
+      "name": "github"
     }
   ]
 }
