@@ -41,4 +41,4 @@ From now on, just import the automations in `automations` folder and have fun.
 - Docker: https://www.docker.com/
 
 ## License  
-This repository is not licensed and is closed source.
+This repository is licensed under [GPL-3.0 License](https://github.com/airscripts/automata/blob/main/LICENSE).
