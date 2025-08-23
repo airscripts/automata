@@ -1,7 +1,6 @@
 services:
   automata:
     build: .
-    container_name: automata
 
     deploy:
       resources:
