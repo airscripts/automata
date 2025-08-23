@@ -1,5 +1,5 @@
 services:
-  n8n:
+  automata:
     build: .
     container_name: automata
 
@@ -23,7 +23,7 @@ services:
       - "5678:5678"
 
     volumes:
-      - n8n:/home/node/.n8n
+      - automata:/home/node/.n8n
 
     environment:
       - TZ=Europe/Rome
@@ -32,5 +32,5 @@ services:
       - N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
 
 volumes:
-  n8n:
+  automata:
     external: true

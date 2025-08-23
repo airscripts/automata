@@ -1,1 +1,1 @@
-docker volume create n8n
+docker volume create automata
