@@ -20,7 +20,7 @@ services:
       test: ["CMD", "wget", "--spider", "--quiet", "http://localhost:5678/healthz"]
 
     ports:
-      - "5678:5678"
+      - 5678
 
     volumes:
       - automata:/home/node/.n8n
