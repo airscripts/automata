@@ -3,14 +3,12 @@ services:
   automata:
     build: .
 
-    labels:
-      - "traefik.http.routers.clustair-automation-ydnf8d-5-websecure.middlewares=tailscale-only@file"
-
     deploy:
       resources:
         limits:
           cpus: "0.5"
           memory: 512M
+
         reservations:
           cpus: "0.1"
           memory: 256M
